@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+        <head>
+                <meta charset="utf-8">
+                <title>A3 Security Assessment</title>
+        </head>
+        <body>
+                <h3>Assignment #3 Security Assessment (Target: Ming)</h3>
+                <h4>Isaac Herman, Comp20 F'18</h4>
+
+                <ol>
+                        <li>Introduction</li>
+                        <h5>Description of the Product:</h5>
+                        <p>The product in question is a web application that maintains final scores and grids for all players of the game 2048.
+                        The application, accessible at <a target="_blank" href="https://gameserver2048.herokuapp.com/">https://gameserver2048.herokuapp.com/</a>,
+                        and it is deployed on Heroku, using Node.js and the Express web framework combined with MongoDB to store records for a long period of time.</p>
+
+                        <h5>What I was Hired to Do:</h5>
+                        <p>I was hired to perform a web security assessment of the product. This includes finding and evaluating vulnerabilities,
+                        as well as making recommendations to fix the vulnerabilities.</p>
+
+                        <li>Methodology</li>
+                        <p>First, I engaged in "black-box" testing of the application, using the command line tool known as "curl" to submit POST requests.
+                        In addition, utilized MongoDB query commands in the web URL to access the database records.</p>
+
+                        <p>After this first phase of testing, I looked at the code to find the source of the vulnerabilities, and performed further "white-box" testing.
+                        Upon viewing the code, I was able to make specific recommendations.</p>
+
+                        <li>Abstract of Findings</li>
+                        <ol>
+                                <li>Cross Site Scripting (XSS)</li>
+                                <p>A vulnerability was found that allows anyone on the internet to submit malicious code to application.
+                                The malicious code is then executed by the application itself. This vulnerability has the potential to ruin the user experience of the application.</p>
+
+                                <li>NoSQL Injection</li>
+                                <p>A vulnerability was found that allows users to manipulate the URL in their web browswer in order to access all records stored by the application.</p>
+
+                                <li>Cross-Origin Resource Sharing</li>
+                                <p>A vulnerability was found that grants access to the to the application's resources to any domain on the internet.
+                                This has the potential to be a disastrous vulnerability if a malicious domain requests and receives access. </p>
+                        </ol>
+
+                        <li>Issues Found</li>
+                        <ol>
+                                <li>Cross-Site-Scripting (XSS)</li>
+                                <ul>
+                                        <li>Location</li>
+                                        <p>This issue was found on line 20 of server.js, inside the "/submit" POST route.</p>
+                                        <pre>Line 20: var username = request.body.username;</pre>
+
+                                        <li>Severity of Issue</li>
+                                        <p>This issue is of HIGH severity. XSS attacks have potential to ruin the user experience of your application,
+                                        by redirecting pages, displaying persistent alerts, or rendering innappropriate content on the screen.</p>
+
+                                        <li>Description of Issue</li>
+                                        <p>The XSS vulnerability arises because the server is taking in user input, WITHOUT sanitizing it first.
+                                        Therefore, anyone on the web has ability to submit malicious JavaScript code that can redirect the page, display alerts, etc.</p>
+
+                                        <li>Proof of Vulnerability</li>
+                                        <figure>
+                                                <img src="XSSCurlCommand.png" alt="XSS Curl Command" width="50%">
+                                                <figcaption>Curl command used to submit malicious JS code to display alert.</figcaption>
+                                        </figure>
+                                        <figure>
+                                                <img src="XSSServerResults.png" alt="XSS Server Results" width="50%">
+                                                <figcaption>Input was not sanitized, this code is stored in the database (see last entry) and will execute upon display. </figcaption>
+                                        </figure>
+
+                                        <li>Resolution</li>
+                                        <p>To resolve this issue, it would be best to remove all special characters from user input. "NEVER TRUST USER INPUT".
+                                        An example of how to do this: </p>
+                                        <pre>string = string.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');</pre>
+                                        <p>By removing special characters, the user will not be able to pass JavaScript code to the server to be executed.</p>
+
+                                        <p>It would also be wise to limit the character count of the user input using the maxlength attribute, by doing something like this: </p>
+                                        <xmp><form action="/action_page.php">
+  Username: <input type="text" name="usrname" maxlength="10"><br>
+  <input type="submit" value="Submit">
+</form></xmp>
+                                </ul>
+
+                                <li>NoSQL Injection</li>
+                                <ul>
+                                        <li>Location</li>
+                                        <p>This issue was found on line 58 of server.js, inside the "/scores.json" GET route.</p>
+                                        <pre>Line 58: var usernameEntry = request.query.username;</pre>
+
+                                        <li>Severity of Issue</li>
+                                        <p>This issue is of HIGH severity. The NoSQL injection attack in this example has successfully displayed ALL records on the database.
+                                        In reality, if this database contained sensitive information, this vulnerability could be taken advantage of to gain access to large amounts of the sensitive information, simply by manipulating the URL.</p>
+
+                                        <li>Description of Issue</li>
+                                        <p>Similar to the XSS attack above, this injection vulnerability results in the fact that user input (URL query string in this case) is not sanitized before processing.
+                                        Ultimately, special characters can be placed in the query string, such as the [] or $ that the server interprets as MongoDB search qualifiers.</p>
+
+                                        <li>Proof of Vulnerability</li>
+                                        <figure>
+                                                <img src="InjectionURL.png" alt="NoSQL Injection URL" width="50%">
+                                                <figcaption>URL used to conduct NoSQL injection attack.</figcaption>
+                                        </figure>
+                                        <figure>
+                                                <img src="InjectionAttack.png" alt="NoSQL Injection Attack" width="50%">
+                                                <figcaption>The URL query string requests to views all documents that do not have the username "batman".</figcaption>
+                                                <figcaption>One can even see the malicious XSS attack done by another hacker in the first document in the database.</figcaption>
+                                        </figure>
+
+                                        <li>Resolution</li>
+                                        <p>Similar to the XSS attack, it would be best to sanitize the query string before executing a request in the Mongo database. An example of how to do this: </p>
+                                        <pre><pre>string = string.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');</pre></pre>
+                                </ul>
+
+                                <li>Cross-Origin Resource Sharing (CORS)</li>
+                                <ul>
+                                        <li>Location</li>
+                                        <p>This issue is found on lines 17 and 55 of server.js, inside the '/submit' POST route and '/scores.json' GET route.</p>
+                                        <pre>response.header("Access-Control-Allow-Origin", "*");</pre>
+
+                                        <li>Severity of Issue</li>
+                                        <p>This issue is of HIGH severity. This is because any site on the web can be granted access to the requested resource.</p>
+
+                                        <li>Description of Issue</li>
+                                        <p>The lines in question mean that ANY (*) site on the web can access the information stored on the server.</p>
+                                        <p>This is known as Cross-Origin Resource Sharing (CORS), and is a dangerous web development practice.</p>
+
+
+                                        <li>Proof of vulnerability</li>
+                                        <figure>
+                                                <img src="ResponseHeader.png" alt="Response Header" width="50%">
+                                                <figcaption>The developer tool shows that any domain can access the resource with the * signifier.</figcaption>
+                                        </figure>
+
+
+                                        <li>Resolution</li>
+                                        <p>For future use, it is best to disable CORS and specifiy the domains that can have access to the resource in question. For example: </p>
+                                        <pre>Access-Control-Allow-Origin: http://foo.example</pre>
+                                        <p>will only allow the domain http://foo.example to access the resource. </p>
+
+                                </ul>
+                        </ol>
+
+                        <li>Conclusion</li>
+                        <p>Ultimately, the vulnerabilities found in this web application are among the most pervasive vulnerabilities found on the internet.
+                        Luckily, and perhaps for that very reason, the fixes are quite easy to implement.</p>
+
+                        <p>Firstly, it is important to never trust user inmput. More specifically, all user input should be sanitized of special characters, so that
+                        malicious actors on the web cannot feed JavaScript code or html elements to the page. Additionally, user input should be capped at a specific character limit.
+                        The same goes for query strings through the URL, which can have special characters removed to prevent MongoDB  queries.</p>
+
+                        <p>Lastly, it is imperative that CORS be disabled, especially if the application aims to store more sensitive information.</p>
+
+                        <p>With web security measures comes tradeoffs, however. Firstly, implementing the above changes pertaining to user input will limit user choice and length of username.
+                        This should not affect much at all. However, disabling CORS will change the essential purpose and functionality of the application. Instead of users (from any domain)
+                        using the application to view scores, this feature will be limited to only specified domains. </p>
+
+                        <li>References</li>
+                        <ul>
+                                <li> <a target="_blank" href="https://www.veracode.com/security/xss">Veridode: XSS Cheat Sheet</a> </li>
+                                <li> <a target="_blank" href="https://stackoverflow.com/questions/6555182/remove-all-special-characters-except-space-from-a-string-using-javascript">Stack Overflow: Remove Special Characters</a></li>
+                                <li> <a target="_blank" href="https://www.w3schools.com/tags/att_input_maxlength.asp">W3: maxlength attribute</a></li>
+                                <li> <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">MDN Web Docs: CORS</a> </li>
+                        </ul>
+                </ol>
+        </body>
+</html>
