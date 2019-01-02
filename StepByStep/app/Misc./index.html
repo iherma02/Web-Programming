@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <title>Step by Step</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-deep-purple.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady">   </script>
+        <script src="search.js"></script>
+        <script src="learn.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+        <script src="https://www.youtube.com/iframe_api"></script>
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/tomorrow.min.css">
+
+</head>
+<body style="background-color: #673AB7;">
+
+        <nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
+                <h1 class="w3-xxxlarge w3-text-theme">Step by Step</h1>
+                <button class="w3-bar-item w3-button" onclick="w3_close()">Close <i class="fa fa-remove"></i></button>
+                <a href="index.html" class="w3-bar-item w3-button">Search</a>
+                <a href="aboutUs.html" class="w3-bar-item w3-button">About</a>
+                <a href="help.html" class="w3-bar-item w3-button">Help</a>
+                <a href="signUp.html" class="w3-bar-item w3-button">Account</a>
+        </nav>
+
+        <header class="w3-container w3-theme w3-padding" id="myHeader">
+                <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button w3-theme"></i>
+                <div class="w3-center">
+                        <h4>Learn dance choreography, the right way</h4>
+                        <h1 class="w3-xxxlarge w3-animate-bottom">Step by Step</h1>
+                        <br>
+                        <input class="w3-input w3-animate-input" type="text" style="width:250px; margin: auto; text-align:center;" placeholder="Single Ladies by Beyonce" id="query">
+                        <div class="w3-padding-32">
+                                <button class="w3-btn w3-xlarge w3-dark-grey w3-hover-light-grey" onclick="keyWordsearch()" style="font-weight:900;">Search</button>
+                        </div>
+                </div>
+        </header>
+
+        <div class="w3-half w3-container w3-deep-purple">
+                <h5>Search Results</h5>
+                <div id="container" style="word-wrap:break-word;">
+                        <ul id="results"></ul>
+                </div>
+        </div>
+
+        <div class="w3-half w3-container w3-deep-purple">
+                <h5>Video Lab</h5>
+                <div id="lab">
+                        <div id="video-placeholder"></div>
+                        <div id="bookmarkButton"></div>
+                        <p><span id="current-time">0:00</span> / <span id="duration">0:00</span></p>
+                        <div id="times"></div>
+                </div>
+        </div>
+
+        <script type="text/javascript">
+                function w3_open() {
+                        var x = document.getElementById("mySidebar");
+                        x.style.width = "20%";
+                        x.style.fontSize = "35px";
+                        x.style.paddingTop = "10%";
+                        x.style.display = "block";
+                }
+                function w3_close() {
+                        document.getElementById("mySidebar").style.display = "none";
+                }
+        </script>
+</body>
+</html>

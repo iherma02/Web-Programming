@@ -1,0 +1,55 @@
+body {
+	
+	color: white;
+	font-family: "Open Sans";
+	font-size: 18px;
+	background-color: blueviolet;
+
+}
+
+
+
+
+a{
+	color: grey;
+	font-style: italic;
+
+}
+
+
+
+
+h1{
+
+	text-align: center;
+	font-family: "Poppins";
+	font-size:  90px;
+	color: black;
+	
+}
+
+
+
+
+h2{
+	text-align: center;
+	font-family: "Poppins";
+	font-size: 25px;
+}
+
+
+
+h3{
+	
+	color:white;
+}
+
+
+a.navigation {
+	text-decoration: none;
+	color: white;
+}
+
+span.navigation {
+	word-spacing: 40px;
+}

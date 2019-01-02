@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <title>Account</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-deep-purple.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady">   </script>
+        <script src="search.js"></script>
+        <script src="learn.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!--may be unneeded-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+        <script src="https://www.youtube.com/iframe_api"></script>
+        <script src="login.js"></script>
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/tomorrow.min.css">
+
+
+</head>
+<body style="background-color: #673AB7;">
+
+        <nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
+                <button class="w3-bar-item w3-button" onclick="w3_close()">Close <i class="fa fa-remove"></i></button>
+                <img src="Step By Step Logo 4.png" alt="Step by Step Logo" width="150"> <!--<h1 class="w3-xxxlarge w3-text-theme">Step by Step</h1>-->
+                <a href="index.html" class="w3-bar-item w3-button">Search</a>
+                <a href="aboutUs.html" class="w3-bar-item w3-button">About</a>
+                <a href="help.html" class="w3-bar-item w3-button">Help</a>
+                <a href="signUp.html" class="w3-bar-item w3-button">Account</a>
+        </nav>
+
+        <header class="w3-container w3-theme w3-padding" id="myHeader">
+                <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button w3-theme"></i>
+                <div class="w3-center">
+                        <h1 class="w3-xxxlarge w3-animate-left">Sign In / Sign Up</h1>
+                </div>
+        </header>
+
+        <div class="w3-left w3-container w3-deep-purple">
+                
+        </div>
+
+
+        <form>
+                <div class="container" align="center">
+                        <p>Sign in to save your moves and see your saved dance moves to your all your songs </p>
+        
+                        <p>
+                                <label for="Username"><b>Username</b></label>
+                                <input type="text" placeholder="Enter Username" name="Username" id="Username"required>
+                        </p>
+                         
+                         <p>
+                                <label for="psw"><b>Password</b></label>
+                                <input type="password" placeholder="Enter Password" name="Password" id="Password" required>
+                        </p>
+                        <p>
+                                <label for="psw-repeat"><b>Repeat </b></label>
+                                <input type="password" placeholder="Repeat Password" name="pswRep" id="pswRep" required>
+                        </p>
+
+                        
+
+                        
+                        
+
+                        <p>Before making an account check our <a href="https://www.youtube.com/watch?v=YSjsNzffUGQ" style="color:dodgerblue">Terms & Conditions </a> </p>
+
+                        <div class="clearfix">
+                                <button type="button" value ="class="signupbtn" onclick="isValid()">Sign Up</button>
+                        </div>
+                </div>
+        </form>
+
+        <h7><h7>
+
+        <script type="text/javascript">
+                function w3_open() {
+                        var x = document.getElementById("mySidebar");
+                        x.style.width = "20%";
+                        x.style.fontSize = "35px";
+                        x.style.paddingTop = "10%";
+                        x.style.display = "block";
+                }
+                function w3_close() {
+                        document.getElementById("mySidebar").style.display = "none";
+                }
+        </script>
+</body>
+</html>
+
